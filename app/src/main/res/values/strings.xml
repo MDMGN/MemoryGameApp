@@ -1,0 +1,7 @@
+<resources>
+    <string name="app_name">MemorygameActivity</string>
+    <string name="game">Jugar</string>
+    <string name="exit">Salir</string>
+    <string name="restart">Reiniciar</string>
+    <string name="textView_point">Puntuación:</string>
+</resources>
