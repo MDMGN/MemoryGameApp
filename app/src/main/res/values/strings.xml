@@ -12,5 +12,9 @@
     <string name="player_record">jugador2</string>
     <string name="puntuacion_record">Puntación:</string>
     <string name="record_playername">jugador</string>
+    <string name="winner">Ganastes</string>
+    <string name="lose">¡Perdistes!</string>
+    <string name="continue_button">Reintentar</string>
+    <string name="close">Cerrar</string>
     <string name="key_file">com.example.myapp.PREFERENCE_FILE_KEY</string>
 </resources>

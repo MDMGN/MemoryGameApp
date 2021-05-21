@@ -47,6 +47,9 @@ public class MainActivity extends AppCompatActivity {
         SharedPreferences sharedPref = this.getSharedPreferences(getString(R.string.key_file),Context.MODE_PRIVATE);
         int highScore = sharedPref.getInt(getString(R.string.record), 0);
         String getname=sharedPref.getString(getString(R.string.record_playername),"");
+        if(getname.equals("")){
+            getname="Incognito";
+        }
         if(highScore>0){
             text_record.setVisibility(View.VISIBLE);
             text_recordname.setVisibility(View.VISIBLE);
@@ -57,4 +60,9 @@ public class MainActivity extends AppCompatActivity {
         }
     }
 
+    @Override
+    protected void onPause() {
+        super.onPause();
+        comprobrarRecord();
+    }
 }

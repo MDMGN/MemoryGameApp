@@ -18,10 +18,9 @@
         android:text="Prueba tu memoria"
         android:textColor="#9C27B0"
         android:textSize="24sp"
-        app:layout_constraintBottom_toTopOf="@+id/button"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
+        app:layout_constraintTop_toBottomOf="@+id/imageView2" />
 
     <Button
         android:id="@+id/button"
@@ -37,7 +36,7 @@
         app:layout_constraintBottom_toTopOf="@+id/button2"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/textView" />
+        app:layout_constraintTop_toBottomOf="@+id/edittext_name" />
 
     <Button
         android:id="@+id/button2"
@@ -50,7 +49,7 @@
         android:background="#3C57EC"
         android:onClick="onClickExit"
         android:text="@string/exit"
-        app:layout_constraintBottom_toTopOf="@+id/text_point"
+        app:layout_constraintBottom_toTopOf="@+id/text_record"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/button" />
@@ -61,10 +60,12 @@
         android:layout_height="wrap_content"
         android:layout_marginStart="8dp"
         android:layout_marginLeft="8dp"
+        android:layout_marginTop="8dp"
         android:layout_marginEnd="8dp"
         android:layout_marginRight="8dp"
         android:text="@string/textView_point"
-        android:textSize="10sp"
+        android:textColor="#FFFFFF"
+        android:textSize="14sp"
         android:textStyle="bold"
         android:visibility="invisible"
         app:layout_constraintBottom_toBottomOf="parent"
@@ -96,8 +97,7 @@
         android:layout_marginEnd="8dp"
         android:layout_marginRight="8dp"
         android:text="@string/text_record"
-        android:textSize="10sp"
-        android:textStyle="bold"
+        android:textSize="18sp"
         android:visibility="invisible"
         app:layout_constraintBottom_toTopOf="@+id/text_recordname"
         app:layout_constraintEnd_toEndOf="parent"
@@ -113,12 +113,25 @@
         android:layout_marginEnd="8dp"
         android:layout_marginRight="8dp"
         android:text="@string/textView_name"
-        android:textSize="10sp"
+        android:textSize="14sp"
         android:textStyle="bold"
         android:visibility="invisible"
         app:layout_constraintBottom_toTopOf="@+id/text_point"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/button2" />
+
+    <ImageView
+        android:id="@+id/imageView2"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="16dp"
+        android:layout_marginLeft="16dp"
+        android:layout_marginEnd="16dp"
+        android:layout_marginRight="16dp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:srcCompat="@drawable/spash_imagen" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>

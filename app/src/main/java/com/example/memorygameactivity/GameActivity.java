@@ -2,13 +2,18 @@ package com.example.memorygameactivity;
 
 import androidx.appcompat.app.AppCompatActivity;
 
+import android.animation.Animator;
+import android.animation.AnimatorListenerAdapter;
+import android.animation.AnimatorSet;
 import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
+import android.media.MediaPlayer;
 import android.os.Bundle;
 import android.os.Handler;
 import android.util.Log;
 import android.view.View;
+import android.view.ViewAnimationUtils;
 import android.widget.ImageButton;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -45,6 +50,7 @@ public class GameActivity extends AppCompatActivity {
     private int imagenFondo;
     private int puntuacion;
     private int aciertos;
+    private int intentos;
     private ArrayList<Integer> arrayBarajado;
     private ImageButton imagenVista;
     private int seleccionUno;
@@ -92,6 +98,7 @@ public class GameActivity extends AppCompatActivity {
     public void startGame(){
         puntuacion=0;
         aciertos=0;
+        intentos=7;
         textPuntuacion.setText(getString(R.string.textView_point)+" "+ Integer.toString(puntuacion));
         tableroBloqueado=false;
         imagenVista=null;
@@ -131,6 +138,7 @@ public class GameActivity extends AppCompatActivity {
     public void comprobar(int position, final ImageButton imagenbtn){
         //Ninguna imagen seleccionada.
         if(imagenVista==null){
+            soundInsert("game");
             imagenVista=imagenbtn;
             imagenVista.setImageResource(imagenes[arrayBarajado.get(position)]);
             imagenVista.setEnabled(false);
@@ -142,6 +150,7 @@ public class GameActivity extends AppCompatActivity {
             seleccionDos=arrayBarajado.get(position);
             //Comprueba si es la misma imagen.
             if(seleccionUno==seleccionDos){
+                soundInsert("equal");
                 imagenVista=null;
                 tableroBloqueado=false;
                 aciertos++;
@@ -150,8 +159,11 @@ public class GameActivity extends AppCompatActivity {
                 //Comprueba si todas las imagenes están destapadas.
                 if(aciertos==imagenes.length){
                     Toast.makeText(this,"Has ganado.",Toast.LENGTH_SHORT).show();
+                    Intent intent=new Intent(this,AlertWinner.class);
+                    startActivity(intent);
                 }
             }else{
+                soundInsert("unequal");
                 //No son la misma imagen.
                 handler.postDelayed(new Runnable() {
                     @Override
@@ -165,9 +177,11 @@ public class GameActivity extends AppCompatActivity {
                         if(puntuacion>0){
                             puntuacion--;
                         }
+                        intentos--;
+                        loseGame();
                         textPuntuacion.setText(getString(R.string.textView_point)+" "+ Integer.toString(puntuacion));
                     }
-                },1000);
+                },1500);
             }
 
         }
@@ -190,13 +204,6 @@ public class GameActivity extends AppCompatActivity {
     }
 
     public void onClickExit(View view) {
-        //int pointmax=Integer.parseInt(getMaxpoint);
-        /*if(puntuacion>0{
-            String getPoint=Integer.toString(puntuacion);
-            Intent replyIntent=new Intent();
-            replyIntent.putExtra(EXTRA_REPLY,getPoint);
-            setResult(RESULT_OK,replyIntent);
-        }*/
         record();
         finish();
     }
@@ -226,6 +233,33 @@ public class GameActivity extends AppCompatActivity {
         if(highScore>0){
             maxpoint_text.setVisibility(View.VISIBLE);
             maxpoint_text.setText(getString(R.string.textView_pointmax)+" "+Integer.toString(highScore));
+        }
+    }
+    public void soundInsert(String action){
+        int sound=0;
+        switch(action){
+            case "game":
+                sound=R.raw.raw_game_start;
+                break;
+            case "equal":
+                sound=R.raw.raw_equal;
+                break;
+            case  "unequal":
+                sound=R.raw.raw_unequal;
+                break;
+            case "winner":
+                sound=R.raw.raw_winner;
+                break;
+        }
+        final MediaPlayer soundClick=MediaPlayer.create(this,sound);
+        soundClick.seekTo(0);
+        soundClick.start();
+    }
+    public void loseGame(){
+        if(intentos==0){
+            Intent intent=new Intent(this,LoseActivity.class);
+            startActivity(intent);
+            finish();
         }
     }
 
