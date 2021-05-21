@@ -2,7 +2,9 @@ package com.example.memorygameactivity;
 
 import androidx.appcompat.app.AppCompatActivity;
 
-import android.media.Image;
+import android.content.Context;
+import android.content.Intent;
+import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.os.Handler;
 import android.util.Log;
@@ -13,12 +15,13 @@ import android.widget.Toast;
 
 import java.util.ArrayList;
 import java.util.Arrays;
-import java.util.Collection;
 import java.util.Collections;
 
 public class GameActivity extends AppCompatActivity {
     private static final int NUM_CASILLAS=16;
-
+    private static final String LOG_TAG ="GameActivity" ;
+    public static final String EXTRA_REPLY="com.example.memorygameactivity.extra.Reply";
+    private TextView maxpoint_text;
     private ImageButton btn00;
     private ImageButton btn01;
     private ImageButton btn02;
@@ -48,10 +51,17 @@ public class GameActivity extends AppCompatActivity {
     private int seleccionDos;
     private boolean tableroBloqueado;
     private final Handler handler=new Handler();
+
+    private String getName;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_game);
+        maxpoint_text=findViewById(R.id.text_point);
+        //Obtener el intent que activo está Activity.
+        Intent intent=getIntent();
+        //Recupera el nombre de la MainActivity.
+        getName=intent.getStringExtra(MainActivity.EXTRA_MESSAGE_NAME);
         btn00 = findViewById(R.id.btnimage00);
         btn01 = findViewById(R.id.btnimage01);
         btn02 = findViewById(R.id.btnimage02);
@@ -76,6 +86,7 @@ public class GameActivity extends AppCompatActivity {
         imagenes = new int[]{
                 R.drawable.la0, R.drawable.la1, R.drawable.la2, R.drawable.la3, R.drawable.la4, R.drawable.la5, R.drawable.la6, R.drawable.la7
         };
+        comprobaRecord();
         startGame();
     }
     public void startGame(){
@@ -173,10 +184,49 @@ public class GameActivity extends AppCompatActivity {
     }
 
     public void onClickRestart(View view) {
+        record();
+        comprobaRecord();
         startGame();
     }
 
     public void onClickExit(View view) {
+        //int pointmax=Integer.parseInt(getMaxpoint);
+        /*if(puntuacion>0{
+            String getPoint=Integer.toString(puntuacion);
+            Intent replyIntent=new Intent();
+            replyIntent.putExtra(EXTRA_REPLY,getPoint);
+            setResult(RESULT_OK,replyIntent);
+        }*/
+        record();
         finish();
     }
+
+    public void record(){
+        String playername=null;
+        SharedPreferences sharedPre = this.getSharedPreferences(getString(R.string.key_file),Context.MODE_PRIVATE);
+        int record=sharedPre.getInt(getString(R.string.record),0);
+        playername=sharedPre.getString(getName,"");
+        if(record<puntuacion){
+            //Muestro el nuevo record
+            Toast.makeText(this,"Nuevo record.",Toast.LENGTH_SHORT).show();
+            //Guardar nuevo record.
+            SharedPreferences.Editor editor=sharedPre.edit();
+            editor.putInt(getString(R.string.record),puntuacion);
+           editor.putString(getString(R.string.record_playername),getName);
+            editor.commit();
+        }else{
+            String mensajeRecord="El record anterior es: "+Integer.toString(record);
+            Toast.makeText(this,mensajeRecord,Toast.LENGTH_LONG).show();
+        }
+    }
+    public void comprobaRecord(){
+        SharedPreferences sharedPref = this.getSharedPreferences(getString(R.string.key_file),Context.MODE_PRIVATE);
+        int defaultValue = 0;
+        int highScore = sharedPref.getInt(getString(R.string.record), defaultValue);
+        if(highScore>0){
+            maxpoint_text.setVisibility(View.VISIBLE);
+            maxpoint_text.setText(getString(R.string.textView_pointmax)+" "+Integer.toString(highScore));
+        }
+    }
+
 }

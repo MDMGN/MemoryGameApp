@@ -1,7 +1,16 @@
 <resources>
-    <string name="app_name">MemorygameActivity</string>
+    <string name="app_name">Memory Card Game</string>
     <string name="game">Jugar</string>
     <string name="exit">Salir</string>
     <string name="restart">Reiniciar</string>
     <string name="textView_point">Puntuación:</string>
+    <string name="textView_pointmax">Puntuación Máxima:</string>
+    <string name="name">Nombre</string>
+    <string name="textView_name">Ingresa tu nombre</string>
+    <string name="record">record</string>
+    <string name="text_record">Record:</string>
+    <string name="player_record">jugador2</string>
+    <string name="puntuacion_record">Puntación:</string>
+    <string name="record_playername">jugador</string>
+    <string name="key_file">com.example.myapp.PREFERENCE_FILE_KEY</string>
 </resources>
